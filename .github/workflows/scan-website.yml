@@ -15,12 +15,13 @@ jobs:
     timeout-minutes: 120
     runs-on: ubuntu-latest
     env:
-      SMTP_HOST:   ${{ secrets.SMTP_HOST }}      # default: smtp.gmail.com
-      SMTP_PORT:   ${{ secrets.SMTP_PORT }}      # default: 587
-      SMTP_SECURE: ${{ secrets.SMTP_SECURE }}    # default: false (587=STARTTLS)
+      # Non-sensitive defaults — hardcoded here, no secrets needed
+      SMTP_HOST:   smtp.gmail.com
+      SMTP_PORT:   '587'
+      SMTP_SECURE: 'false'
+      # Sensitive credentials — stored as Repository Secrets
       SMTP_USER:   ${{ secrets.SMTP_USER }}
-      SMTP_PASS:   ${{ secrets.SMTP_PASS }}      # Gmail App Password (16 chars)
-      NOTIFY_TO:   ${{ secrets.NOTIFY_TO }}      # optional, defaults to SMTP_USER
+      SMTP_PASS:   ${{ secrets.SMTP_PASS }}
     steps:
       - uses: actions/checkout@v4
 

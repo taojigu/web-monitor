@@ -1,0 +1,15 @@
+# Playwright
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
+/playwright/.auth/
+
+# Runtime temp files
+.session-start
+.notify-temp/
+
+# Environment / secrets — never commit these
+.env
+.env.local

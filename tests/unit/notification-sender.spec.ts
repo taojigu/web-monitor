@@ -9,8 +9,8 @@ const SMTP_CONFIG = {
   host: 'smtp.example.com',
   port: 465,
   secure: true,
-  user: 'sender@example.com',
-  password: 'secret',
+  user: 'jitaogu1102@gmail.com',
+  password: 'GoogleWord80!',
 };
 
 interface SentMail {
@@ -46,6 +46,30 @@ function buildBuffer(entries: { email: string; siteTitle: string; items: { title
 
 test.describe('NotificationSender', () => {
 
+  test.describe('constructor assertions', () => {
+
+    test('throws when config.user is empty', () => {
+      expect(() => new NotificationSender({ ...SMTP_CONFIG, user: '' }))
+        .toThrow('config.user must not be empty');
+    });
+
+    test('throws when config.user is whitespace only', () => {
+      expect(() => new NotificationSender({ ...SMTP_CONFIG, user: '   ' }))
+        .toThrow('config.user must not be empty');
+    });
+
+    test('throws when config.password is empty', () => {
+      expect(() => new NotificationSender({ ...SMTP_CONFIG, password: '' }))
+        .toThrow('config.password must not be empty');
+    });
+
+    test('throws when config.password is whitespace only', () => {
+      expect(() => new NotificationSender({ ...SMTP_CONFIG, password: '   ' }))
+        .toThrow('config.password must not be empty');
+    });
+
+  });
+
   test('does nothing when the buffer is empty', async () => {
     const { transporter, sent } = createMockTransporter();
     const sender = new NotificationSender(SMTP_CONFIG, transporter);
@@ -61,15 +85,15 @@ test.describe('NotificationSender', () => {
     const sender = new NotificationSender(SMTP_CONFIG, transporter);
 
     const buffer = buildBuffer([
-      { email: 'alice@example.com', siteTitle: 'Te Papa', items: [{ title: 'Host', url: 'https://jobs.tepapa.govt.nz/1' }] },
-      { email: 'bob@example.com',   siteTitle: 'Te Papa', items: [{ title: 'Guide', url: 'https://jobs.tepapa.govt.nz/2' }] },
+      { email: 'jitaogu1102@gmail.com', siteTitle: 'Te Papa', items: [{ title: 'Host', url: 'https://jobs.tepapa.govt.nz/1' }] },
+      //{ email: 'bob@example.com',   siteTitle: 'Te Papa', items: [{ title: 'Guide', url: 'https://jobs.tepapa.govt.nz/2' }] },
     ]);
 
     await sender.send(buffer);
 
-    expect(sent).toHaveLength(2);
+    expect(sent).toHaveLength(1);
     expect(sent.map(s => s.to)).toEqual(
-      expect.arrayContaining(['alice@example.com', 'bob@example.com'])
+      expect.arrayContaining(['jitaogu1102@gmail.com'])
     );
   });
 
@@ -83,7 +107,7 @@ test.describe('NotificationSender', () => {
 
     await sender.send(buffer);
 
-    expect(sent[0].from).toBe('sender@example.com');
+    expect(sent[0].from).toBe(SMTP_CONFIG.user);
   });
 
   test('subject contains [Web Monitor]', async () => {

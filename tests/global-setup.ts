@@ -10,3 +10,4 @@ export default async function globalSetup(config: FullConfig): Promise<void> {
   console.log(`\n[Session] ▶ Test session started  at ${startTime.toISOString()}`);
 }
 
+

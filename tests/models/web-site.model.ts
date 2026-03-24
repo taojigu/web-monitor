@@ -40,8 +40,22 @@ export class WebSiteConfig {
   }
 
   /** Find a site entry by its code */
-  findByCode(code: string): Site | undefined {
+  findSiteByCode(code: string): Site | undefined {
     return this.siteList.find(s => s.code === code);
+  }
+
+  /*** check whether the title contains the key word*/
+  titleContainsKeyword(title: string, code:string): boolean {
+    const site = this.findSiteByCode(code);
+    const siteInfo = site?.info;
+    if (!siteInfo) {
+      console.warn(`Site with code "${code}" not found.`);
+      return false;
+    }
+    const keywords = siteInfo.keywords;
+    return keywords.some((keyword)=>{
+      return title.toLowerCase().includes(keyword.toLowerCase());
+    });
   }
 }
 

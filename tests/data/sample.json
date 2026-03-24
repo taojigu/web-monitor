@@ -1,0 +1,8 @@
+{
+  "username": "test-user",
+  "password": "P@ssw0rd",
+  "settings": {
+    "theme": "dark",
+    "notifications": true
+  }
+}

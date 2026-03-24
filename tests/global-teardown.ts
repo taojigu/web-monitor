@@ -1,6 +1,8 @@
 import { FullConfig } from '@playwright/test';
 import * as fs from 'fs';
 import * as path from 'path';
+import { NotifyBuffer } from './models/notify-buffer';
+import { NotificationSender } from './models/notification-sender';
 
 const SESSION_FILE = path.resolve(__dirname, '../.session-start');
 
@@ -15,5 +17,21 @@ export default async function globalTeardown(config: FullConfig): Promise<void> 
   }
 
   console.log(`\n[Session] ■ Test session finished at ${endTime.toISOString()} (duration: ${duration}s)`);
-}
 
+  // Merge buffer files written by every worker process
+  const buffer = NotifyBuffer.loadAll();
+
+  if (!buffer.isEmpty()) {
+    const sender = new NotificationSender({
+      host:     process.env.SMTP_HOST     ?? 'smtp.gmail.com',
+      port:     parseInt(process.env.SMTP_PORT    ?? '587'),
+      secure:   (process.env.SMTP_SECURE  ?? 'false') === 'true',
+      user:     process.env.SMTP_USER     ?? '',
+      password: process.env.SMTP_PASS     ?? '',
+    });
+
+    await sender.send(buffer);
+  } else {
+    console.log('[Session] No notifications to send.');
+  }
+}

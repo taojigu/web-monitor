@@ -10,9 +10,7 @@ import {NotifyBuffer} from '../models/notify-buffer';
  */
 async function collectAndNotify(
     page: Page,
-    keyword: string,
-    webSiteConfig: WebSiteConfig,
-    siteInfo: SiteInfo,
+    siteInfo:SiteInfo,
     notifyBuffer: NotifyBuffer
 ): Promise<void> {
     const links = page.locator('.position a');
@@ -31,14 +29,10 @@ async function collectAndNotify(
         const title = (await link.textContent())?.trim() ?? '';
         const href = (await link.getAttribute('href')) ?? '';
         const url = href.startsWith('http') ? href : new URL(href, page.url()).href;
-
-        if (!webSiteConfig.titleContainsKeyword(title, keyword)) {
-            savedJobs.push({title, url});
-        }
+        savedJobs.push({ title, url });
     }
 
     if (savedJobs.length == 0) {
-        console.log('Jobs found that do not contain the keyword "host":');
         return;
     }
 
@@ -80,7 +74,7 @@ test.describe('TepapaJob001', () => {
       // Expected Result 1: navigates to the search results page
       await expect(page).toHaveURL(/jobs\.tepapa\.govt\.nz\/jobtools\/jncustomsearch\.searchResults/);
       // Expected Result 2 & 3: collect results and queue notifications
-      await collectAndNotify(page, keyword, webSiteConfig, siteInfo, notifyBuffer);
+      await collectAndNotify(page, siteInfo, notifyBuffer);
     }
   });
 

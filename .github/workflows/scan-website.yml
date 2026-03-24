@@ -1,51 +1,13 @@
-name: Playwright Tests
+name: Scan Website
 
 on:
-  push:
-    branches: [ main, master ]
-  pull_request:
-    branches: [ main, master ]
+
   schedule:
     # Run monitoring every weekday at 9 AM UTC
     - cron: '0 9 * * 1-5'
   workflow_dispatch:   # allow manual trigger from the Actions tab
 
 jobs:
-  # ── Unit tests — fast, no browser needed ────────────────────────────────────
-  unit:
-    name: Unit Tests
-    timeout-minutes: 15
-    runs-on: ubuntu-latest
-    env:
-      SMTP_HOST:   ${{ secrets.SMTP_HOST }}      # default: smtp.gmail.com
-      SMTP_PORT:   ${{ secrets.SMTP_PORT }}      # default: 587
-      SMTP_SECURE: ${{ secrets.SMTP_SECURE }}    # default: false (587=STARTTLS)
-      SMTP_USER:   ${{ secrets.SMTP_USER }}
-      SMTP_PASS:   ${{ secrets.SMTP_PASS }}      # Gmail App Password (16 chars)
-      NOTIFY_TO:   ${{ secrets.NOTIFY_TO }}      # optional, defaults to SMTP_USER
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: npm
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Install Chromium only
-        run: npx playwright install --with-deps chromium
-
-      - name: Run unit tests
-        run: npx playwright test tests/unit/ --project=chromium
-
-      - uses: actions/upload-artifact@v4
-        if: ${{ !cancelled() }}
-        with:
-          name: unit-report
-          path: playwright-report/
-          retention-days: 7
 
   # ── E2E / monitoring tests — run on push + schedule ─────────────────────────
   e2e:

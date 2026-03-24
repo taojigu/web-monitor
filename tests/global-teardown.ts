@@ -22,15 +22,22 @@ export default async function globalTeardown(config: FullConfig): Promise<void> 
   const buffer = NotifyBuffer.loadAll();
 
   if (!buffer.isEmpty()) {
-    const sender = new NotificationSender({
-      host:     process.env.SMTP_HOST     ?? 'smtp.gmail.com',
-      port:     parseInt(process.env.SMTP_PORT    ?? '587'),
-      secure:   (process.env.SMTP_SECURE  ?? 'false') === 'true',
-      user:     process.env.SMTP_USER     ?? '',
-      password: process.env.SMTP_PASS     ?? '',
-    });
+    const smtpUser = process.env.SMTP_USER || '';
+    const smtpPass = process.env.SMTP_PASS || '';
 
-    await sender.send(buffer);
+    if (!smtpUser || !smtpPass) {
+      console.warn('[Session] SMTP credentials (SMTP_USER / SMTP_PASS) are not configured — skipping notification.');
+    } else {
+      const sender = new NotificationSender({
+        host:   process.env.SMTP_HOST   || 'smtp.gmail.com',
+        port:   parseInt(process.env.SMTP_PORT   || '587'),
+        secure: (process.env.SMTP_SECURE || 'false') === 'true',
+        user:   smtpUser,
+        password: smtpPass,
+      });
+
+      await sender.send(buffer);
+    }
   } else {
     console.log('[Session] No notifications to send.');
   }

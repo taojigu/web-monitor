@@ -37,7 +37,7 @@ async function collectAndNotify(
     }
 
     for (const email of siteInfo.emails) {   // for...of to iterate values, not indices
-        notifyBuffer.add(siteInfo.name, savedJobs, email);
+        notifyBuffer.add(email, siteInfo.name, savedJobs);
     }
 }
 

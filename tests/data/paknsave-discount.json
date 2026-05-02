@@ -1,0 +1,53 @@
+{
+  "site-list": [
+    {
+      "title": "PaknSave Kilbirnie Discount",
+      "url": "https://www.paknsave.co.nz/",
+      "emails": [
+        "jitaogu1102@gmail.com",
+        "QuitMobilePhoneAddiction@gmail.com",
+      ],
+      "location": "Kilbirnie",
+      "price-filter": [
+        {
+          "keyword": "Auntie Dai's Pork",
+          "min-price": 0,
+          "max-price": 10
+        },
+        {
+          "keyword": "Fisherking Raw Prawn Cutlets 800g",
+          "min-price": 0,
+          "max-price": 14
+        },
+        {
+          "keyword": "Kapiti Mini Ice",
+          "min-price": 0,
+          "max-price": 9
+        }
+
+      ]
+    },
+    {
+      "title": "PaknSave Petone Discount",
+      "url": "https://www.paknsave.co.nz/",
+      "emails": [
+        "jitaogu1102@gmail.com",
+        "QuitMobilePhoneAddiction@gmail.com"
+      ],
+      "location": "Petone",
+      "price-filter": [
+        {
+          "keyword": "The Collective Epic Greek Mango",
+          "min-price": 0,
+          "max-price": 8
+        },
+        {
+          "keyword": "Magnum Almond Ice Cream 428ml",
+          "min-price": 0,
+          "max-price": 8.5
+        }
+      ]
+    }
+
+  ]
+}

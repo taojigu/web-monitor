@@ -51,28 +51,28 @@ test.describe('NotificationSender (integration — sends real email)', () => {
     const sender = new NotificationSender(SMTP_CONFIG);
     const buffer = new NotifyBuffer();
     buffer.add(
+      RECIPIENT,
       'Te Papa — Host Jobs Wellington',
       [
         { title: 'Senior Host',   url: 'https://jobs.tepapa.govt.nz/1' },
         { title: 'Gallery Guide', url: 'https://jobs.tepapa.govt.nz/2' },
       ],
-      RECIPIENT,
     );
     buffer.add(
-        'PB Tech',
-        [
-          { title: 'Senior Host',   url: 'https://jobs.tepapa.govt.nz/1' },
-          { title: 'Gallery Guide', url: 'https://jobs.tepapa.govt.nz/2' },
-        ],
         RECIPIENT,
-    );
-    buffer.add(
         'PB Tech',
         [
           { title: 'Senior Host',   url: 'https://jobs.tepapa.govt.nz/1' },
           { title: 'Gallery Guide', url: 'https://jobs.tepapa.govt.nz/2' },
         ],
+    );
+    buffer.add(
         RECIPIENT2,
+        'PB Tech',
+        [
+          { title: 'Senior Host',   url: 'https://jobs.tepapa.govt.nz/1' },
+          { title: 'Gallery Guide', url: 'https://jobs.tepapa.govt.nz/2' },
+        ],
     );
 
 

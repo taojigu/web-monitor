@@ -14,6 +14,27 @@
           "QuitMobilePhoneAddiction@gmail.com"
         ]
       }
+    },
+    {
+      "code": "PaknSave-Kilbirnie-Discount",
+      "info" : {
+        "name": "PaknSave Kilbirnie Discount",
+        "url": "https://www.paknsave.co.nz/",
+        "emails": [
+          "jitaogu1102@gmail.com",
+          "QuitMobilePhoneAddiction@gmail.com"
+        ]
+      },
+      "context": {
+        "location": "Kilbirnie",
+        "price-filter": [
+          {
+            "keyword": "Auntie Dai's Pork",
+            "min-price": 0,
+            "max-price": 10
+          }
+        ]
+      }
     }
   ]
 }

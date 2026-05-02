@@ -32,11 +32,11 @@ export class NotifyBuffer {
 
   /**
    * Adds a site's job list to the buffer, grouped by recipient email.
+   * @param email      - The recipient email address.
    * @param siteTitle  - The name/title of the site being monitored.
    * @param infoItems  - The list of job entries found for that site.
-   * @param email      - The recipient email address.
    */
-  add(siteTitle: string, infoItems: InfoItemEntry[], email: string): void {
+  add(email: string, siteTitle: string, infoItems: InfoItemEntry[]): void {
     if (infoItems.length === 0) return;
 
     let entry = this.buffer.find(e => e.email === email);

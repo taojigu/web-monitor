@@ -82,7 +82,7 @@ export class NotificationSender {
     return `
         <html lang="en">
         <body style="font-family: sans-serif;">
-          <h1>Job Notification — ${new Date().toDateString()}</h1>
+          <h1>Notification — ${new Date().toDateString()}</h1>
           ${sections.join('<hr/>')}
         </body>
       </html>`;

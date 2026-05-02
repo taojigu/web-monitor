@@ -5,26 +5,30 @@
       "url": "https://www.paknsave.co.nz/",
       "emails": [
         "jitaogu1102@gmail.com",
-        "QuitMobilePhoneAddiction@gmail.com",
+        "QuitMobilePhoneAddiction@gmail.com"
       ],
       "location": "Kilbirnie",
       "price-filter": [
         {
           "keyword": "Auntie Dai's Pork",
           "min-price": 0,
-          "max-price": 10
+          "max-price": 7
         },
         {
           "keyword": "Fisherking Raw Prawn Cutlets 800g",
           "min-price": 0,
-          "max-price": 14
+          "max-price": 12
         },
         {
           "keyword": "Kapiti Mini Ice",
           "min-price": 0,
+          "max-price": 6
+        },
+        {
+          "keyword": "Pams Value Lite Milk 3",
+          "min-price": 0,
           "max-price": 9
         }
-
       ]
     },
     {

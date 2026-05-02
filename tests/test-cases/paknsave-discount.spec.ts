@@ -60,7 +60,7 @@ test.describe('PaknSaveDiscount', () => {
             for (const filter of site['price-filter']) {
 
                 const searchInput = page.locator('[data-testid="search-bar-input"][id="search-bar-desktop"]');
-                await expect(searchInput).toBeVisible();
+                await expect(searchInput).toBeVisible({ timeout: 30000 });
                 await searchInput.fill(filter.keyword);
                 await searchInput.press('Enter');
                 await page.waitForLoadState('networkidle');
@@ -85,13 +85,16 @@ test.describe('PaknSaveDiscount', () => {
                 console.log(fullUrl);
 
                 if (!isNaN(price) && price >= filter['min-price'] && price <= filter['max-price']) {
-                    const entry: InfoItemEntry = {title, url: fullUrl};
+                    const itemTitle = `${title} - ${price} Dollars`;
+                    const entry: InfoItemEntry = {title:itemTitle, url: fullUrl};
                     infoItemArray.push(entry);
                 }
 
                 await page.goBack();
                 await page.waitForLoadState('networkidle');
                 await page.context().clearCookies();
+                await page.waitForTimeout(1000);
+
             }
             for (const email of site.emails) {
                 notifyBuffer.add(email, site.title, infoItemArray);

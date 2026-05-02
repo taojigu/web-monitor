@@ -47,6 +47,7 @@ test.describe('PaknSaveDiscount', () => {
 
     test('should collect discounted products from PaknSave', async ({page}) => {
         for (const site of config['site-list']) {
+            console.log(`[PaknSave] Site: ${site.title} | Location: ${site.location}`);
             notifyBuffer = new NotifyBuffer();
             await page.goto(site.url, {waitUntil: 'networkidle'});
             // Select store
@@ -55,10 +56,11 @@ test.describe('PaknSaveDiscount', () => {
             const firstStore = page.getByTestId('delivery-choose-location-store').first();
             await firstStore.getByTestId('delivery-choose-location-store-select-store').click();
             await page.getByTestId('delivery-middle-button').first().click();
+            console.log(`[PaknSave] Store selected: ${site.location}`);
             //await page.goto(site.url, { waitUntil: 'networkidle' });
             const infoItemArray: InfoItemEntry[] = [];
             for (const filter of site['price-filter']) {
-
+                console.log(`[PaknSave] Searching keyword="${filter.keyword}" price=$${filter['min-price']}–$${filter['max-price']}`);
                 const searchInput = page.locator('[data-testid="search-bar-input"][id="search-bar-desktop"]');
                 await expect(searchInput).toBeVisible({ timeout: 30000 });
                 await searchInput.fill(filter.keyword);
@@ -80,14 +82,16 @@ test.describe('PaknSaveDiscount', () => {
                     .first()
                     .getAttribute('href');
 
-
                 const fullUrl = new URL(href!, page.url()).href;
-                console.log(fullUrl);
+                console.log(`[PaknSave] Top result: "${title?.trim()}" $${price} → ${fullUrl}`);
 
                 if (!isNaN(price) && price >= filter['min-price'] && price <= filter['max-price']) {
                     const itemTitle = `${title} - ${price} Dollars`;
                     const entry: InfoItemEntry = {title:itemTitle, url: fullUrl};
                     infoItemArray.push(entry);
+                    console.log(`[PaknSave] Matched: "${itemTitle}"`);
+                } else {
+                    console.log(`[PaknSave] Skipped: price $${price} outside range $${filter['min-price']}–$${filter['max-price']}`);
                 }
 
                 await page.goBack();
@@ -96,6 +100,7 @@ test.describe('PaknSaveDiscount', () => {
                 await page.waitForTimeout(1000);
 
             }
+            console.log(`[PaknSave] ${site.title}: ${infoItemArray.length} item(s) matched`);
             for (const email of site.emails) {
                 notifyBuffer.add(email, site.title, infoItemArray);
             }

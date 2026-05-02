@@ -49,7 +49,9 @@ test.describe('PaknSaveDiscount', () => {
         for (const site of config['site-list']) {
             console.log(`[PaknSave] Site: ${site.title} | Location: ${site.location}`);
             notifyBuffer = new NotifyBuffer();
-            await page.goto(site.url, {waitUntil: 'networkidle'});
+            await page.goto(site.url, {waitUntil: 'load'});
+            await page.getByTestId('store-dropdown').first().waitFor({ state: 'visible', timeout: 30000 });
+            console.log(`[PaknSave] Navigated to ${site.url}`);
             // Select store
             await page.getByTestId('store-dropdown').first().click();
             await page.getByPlaceholder('Search for name/address of store').fill(site.location);
@@ -95,7 +97,7 @@ test.describe('PaknSaveDiscount', () => {
                 }
 
                 await page.goBack();
-                await page.waitForLoadState('networkidle');
+                await page.waitForLoadState('load');
                 await page.context().clearCookies();
                 await page.waitForTimeout(1000);
 

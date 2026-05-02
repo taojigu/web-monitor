@@ -18,7 +18,7 @@ jobs:
   # ── E2E / monitoring tests — run on push + schedule ─────────────────────────
   e2e:
     name: E2E Tests (Chrome only)
-    timeout-minutes: 120
+    timeout-minutes: 5
     runs-on: ubuntu-latest
     env:
       # Non-sensitive defaults — hardcoded here, no secrets needed

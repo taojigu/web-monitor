@@ -38,7 +38,16 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: process.env.CI
     ? [
-        { name: 'chromium', use: { ...devices['Desktop Chrome'] } },
+        {
+          name: 'chromium',
+          use: {
+            ...devices['Desktop Chrome'],
+            channel: 'chrome',
+            launchOptions: {
+              args: ['--disable-blink-features=AutomationControlled'],
+            },
+          },
+        },
       ]
     : [
         { name: 'chromium', use: { ...devices['Desktop Chrome'] } },

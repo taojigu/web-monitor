@@ -19,7 +19,7 @@ jobs:
   e2e:
     name: E2E Tests (Chrome only)
     timeout-minutes: 120
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Windows, X64, home-laptop]
     env:
       # Non-sensitive defaults — hardcoded here, no secrets needed
       SMTP_HOST:   smtp.gmail.com
@@ -51,3 +51,4 @@ jobs:
           name: e2e-report
           path: playwright-report/
           retention-days: 30
+

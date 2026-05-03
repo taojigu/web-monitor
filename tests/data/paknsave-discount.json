@@ -23,11 +23,6 @@
           "keyword": "Kapiti Mini Ice",
           "min-price": 0,
           "max-price": 6
-        },
-        {
-          "keyword": "Pams Value Lite Milk 3",
-          "min-price": 0,
-          "max-price": 9
         }
       ]
     },
@@ -35,8 +30,6 @@
       "title": "PaknSave Petone Discount",
       "url": "https://www.paknsave.co.nz/",
       "emails": [
-        "jitaogu1102@gmail.com",
-        "QuitMobilePhoneAddiction@gmail.com"
       ],
       "location": "Petone",
       "price-filter": [

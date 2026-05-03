@@ -50,8 +50,10 @@ test.describe('PaknSaveDiscount', () => {
             console.log(`[PaknSave] Site: ${site.title} | Location: ${site.location}`);
             notifyBuffer = new NotifyBuffer();
             await page.goto(site.url, {waitUntil: 'load'});
+            await page.screenshot({ path: `test-results/debug-after-goto-${site.location}.png` });
+            console.log(`[PaknSave] Navigated to ${site.url} | title="${await page.title()}"`);
             await page.getByTestId('store-dropdown').first().waitFor({ state: 'visible', timeout: 30000 });
-            console.log(`[PaknSave] Navigated to ${site.url}`);
+            console.log(`[PaknSave] Store dropdown visible`);
             // Select store
             await page.getByTestId('store-dropdown').first().click();
             await page.getByPlaceholder('Search for name/address of store').fill(site.location);

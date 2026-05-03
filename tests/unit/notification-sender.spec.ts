@@ -37,7 +37,7 @@ function createMockTransporter(): { transporter: Transporter; sent: SentMail[] }
 function buildBuffer(entries: { email: string; siteTitle: string; items: { title: string; url: string }[] }[]): NotifyBuffer {
   const buffer = new NotifyBuffer();
   for (const e of entries) {
-    buffer.add(e.siteTitle, e.items, e.email);
+    buffer.add(e.email, e.siteTitle, e.items);
   }
   return buffer;
 }

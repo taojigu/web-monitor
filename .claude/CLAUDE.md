@@ -71,7 +71,7 @@ SMTP host/port/secure settings are hardcoded in `.github/workflows/scan-website.
 
 GitHub Actions (`.github/workflows/scan-website.yml`) runs on:
 - Push to `main`
-- Cron: `0 20 * * 0-4` UTC (Mon–Fri 8am NZST)
+- Cron: `0 2 * * 1,4` UTC (Mon & Thu 2pm NZST)
 - Manual `workflow_dispatch`
 
 Only Chromium is used. HTML test reports are uploaded as artifacts (30-day retention).

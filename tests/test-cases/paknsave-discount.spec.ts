@@ -1,7 +1,9 @@
-import {expect, Locator, Page, test} from '@playwright/test';
+import {expect, Locator, Page, test} from '../fixtures';
 import * as fs from 'fs';
 import * as path from 'path';
 import {InfoItemEntry, NotifyBuffer} from '../models/notify-buffer';
+import {environmentFileName} from "../../util/enviroment_util";
+
 
 interface PriceFilter {
     keyword: string;
@@ -34,15 +36,17 @@ async function readPrice(product: Locator): Promise<number> {
 
 async function filterProduct(filter: PriceFilter, page: Page, infoItemArray: InfoItemEntry[]) {
     console.log(`[PaknSave] Searching keyword="${filter.keyword}" price=$${filter['min-price']}–$${filter['max-price']}`);
-    const searchInput = page.locator('[data-testid="search-bar-input"][id="search-bar-desktop"]');
-    await expect(searchInput).toBeVisible({timeout: 30000});
-    await searchInput.fill(filter.keyword);
-    await searchInput.press('Enter');
-    await page.waitForLoadState('networkidle');
+    console.log(`[PaknSave] filterProduct page url: ${page.url()}`);
+    const searchUrl = new URL("https://www.paknsave.co.nz/shop/search");
 
-    const product = page.locator('div[data-testid*="-EA-000"]').first();
+    searchUrl.searchParams.set("q", filter.keyword);
+    searchUrl.searchParams.set("pg", "1");
+    console.log(`[PaknSave] searchUrl: ${searchUrl}`);
+    await page.goto(searchUrl.toString(), {timeout: 30000, waitUntil: "load"});
 
-    await expect(product).toBeVisible();
+    const product = page.locator('div[data-testid$="-EA-000"]').first();
+
+    await expect(product).toBeVisible({timeout: 15000});
 
     const title = await product
         .locator('[data-testid="product-title"]')
@@ -68,9 +72,7 @@ async function filterProduct(filter: PriceFilter, page: Page, infoItemArray: Inf
     }
 
     await page.goBack();
-    await page.waitForLoadState('networkidle');
-    await page.context().clearCookies();
-    await page.waitForTimeout(1000);
+    await page.waitForLoadState('load');
 }
 
 test.describe('PaknSaveDiscount', () => {
@@ -78,15 +80,18 @@ test.describe('PaknSaveDiscount', () => {
     let notifyBuffer: NotifyBuffer;
 
     test.beforeAll(() => {
-        const dataPath = path.resolve(__dirname, '../data/paknsave-discount.json');
+        const fileName = environmentFileName("paknsave-discount","json");
+        const dataPath = path.resolve(__dirname, `../data/${fileName}`);
         config = JSON.parse(fs.readFileSync(dataPath, 'utf-8')) as PaknSaveConfig;
     });
 
-    test.afterAll(() => {
-
+    test.beforeEach(async ({page})=>{
+        await page.goto('https://www.paknsave.co.nz');
     });
 
+
     test('should collect discounted products from PaknSave', async ({page}) => {
+
         for (const site of config['site-list']) {
             if (site.emails.length === 0 || site['price-filter'].length === 0) {
                 console.log(`[PaknSave] Skipping site: ${site.title} | Location: ${site.location} because no emails or price filters`);
@@ -94,7 +99,12 @@ test.describe('PaknSaveDiscount', () => {
             }
             console.log(`[PaknSave] Site: ${site.title} | Location: ${site.location}`);
             notifyBuffer = new NotifyBuffer();
-            await page.goto(site.url, {waitUntil: 'networkidle'});
+            try {
+                await page.goto(site.url, {waitUntil: 'networkidle'});
+            } catch (err) {
+                console.error(`[PaknSave] Cannot reach ${site.url}: ${(err as Error).message}`);
+                continue;
+            }
             // Select store
             await page.getByTestId('store-dropdown').first().click();
             await page.getByPlaceholder('Search for name/address of store').fill(site.location);
@@ -106,6 +116,8 @@ test.describe('PaknSaveDiscount', () => {
             const infoItemArray: InfoItemEntry[] = [];
             for (const filter of site['price-filter']) {
                 await filterProduct(filter, page, infoItemArray);
+                const ms = Math.floor(Math.random() * 4000) + 1000;
+                await page.waitForTimeout(ms);
             }
             console.log(`[PaknSave] ${site.title}: ${infoItemArray.length} item(s) matched`);
             for (const email of site.emails) {

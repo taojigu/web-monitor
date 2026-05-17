@@ -101,7 +101,7 @@ test.describe('PaknSaveDiscount', () => {
             console.log(`[PaknSave] Site: ${site.title} | Location: ${site.location}`);
             notifyBuffer = new NotifyBuffer();
             try {
-                await page.goto(site.url, {waitUntil: 'networkidle'});
+                await page.goto(site.url, {waitUntil: 'domcontentloaded'});
             } catch (err) {
                 console.error(`[PaknSave] Cannot reach ${site.url}: ${(err as Error).message}`);
                 continue;

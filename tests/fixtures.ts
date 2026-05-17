@@ -29,7 +29,7 @@ const test = base.extend<TestFixtures>({
     const context = await chromium.launchPersistentContext(
         './playwright-user-data',
         {
-          headless: false,
+          headless: !!process.env.CI,
           channel: 'chrome',
 
           userAgent:

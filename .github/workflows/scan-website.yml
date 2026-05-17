@@ -19,7 +19,7 @@ jobs:
   e2e:
     name: E2E Tests (Chrome only)
     timeout-minutes: 20
-    runs-on: [self-hosted, Windows, X64, home-laptop]
+    runs-on: ubuntu-latest
     env:
       # Non-sensitive defaults — hardcoded here, no secrets needed
       SMTP_HOST:   smtp.gmail.com
@@ -28,6 +28,7 @@ jobs:
       # Sensitive credentials — stored as Repository Secrets
       SMTP_USER:   ${{ secrets.SMTP_USER }}
       SMTP_PASS:   ${{ secrets.SMTP_PASS }}
+      NODE_ENV:     prod
     steps:
       - uses: actions/checkout@v4
 

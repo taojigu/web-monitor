@@ -62,7 +62,7 @@ test.describe('TepapaJob001', () => {
     const site = webSiteConfig.findSiteByCode(tepapaCode);
     expect(site).toBeDefined();
     const siteInfo = site!.info;
-    await page.goto(siteInfo.url, {waitUntil: 'networkidle'});
+    await page.goto(siteInfo.url, {waitUntil: 'domcontentloaded'});
     for (const keyword of siteInfo.keywords) {
       // Step 1: Enter keyword in Job Title field
       await page.locator('#nav-jobsearch input[name="in_position"]').fill(keyword);
@@ -70,7 +70,7 @@ test.describe('TepapaJob001', () => {
       await page.locator('select[name="in_location"]').selectOption({value: '"Wellington"'});
       // Step 3: Click Search button
       await page.locator('button:has-text("Search"), input[type="submit"][value*="Search"], button[name*="search"]').first().click();
-      await page.waitForLoadState('networkidle');
+      await page.waitForLoadState('domcontentloaded');
       // Expected Result 1: navigates to the search results page
       await expect(page).toHaveURL(/jobs\.tepapa\.govt\.nz\/jobtools\/jncustomsearch\.searchResults/);
       // Expected Result 2 & 3: collect results and queue notifications

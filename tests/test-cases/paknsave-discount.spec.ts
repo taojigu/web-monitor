@@ -82,11 +82,12 @@ test.describe('PaknSaveDiscount', () => {
     test.beforeAll(() => {
         const fileName = environmentFileName("paknsave-discount","json");
         const dataPath = path.resolve(__dirname, `../data/${fileName}`);
+        console.log(`[PaknSave] Load data file ${dataPath}`);
         config = JSON.parse(fs.readFileSync(dataPath, 'utf-8')) as PaknSaveConfig;
     });
 
     test.beforeEach(async ({page})=>{
-        await page.goto('https://www.paknsave.co.nz');
+        await page.goto('https://www.paknsave.co.nz',{waitUntil: 'load'});
     });
 
 

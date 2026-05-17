@@ -19,7 +19,7 @@ jobs:
   e2e:
     name: E2E Tests (Chrome only)
     timeout-minutes: 20
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, Windows, X64]
     env:
       # Non-sensitive defaults — hardcoded here, no secrets needed
       SMTP_HOST:   smtp.gmail.com

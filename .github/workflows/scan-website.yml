@@ -7,9 +7,9 @@ on:
       - main
 
   schedule:
-    # 2:00 PM NZST (UTC+12) Mon & Thu = 02:00 UTC Mon & Thu
-    # During NZDT (UTC+13, Sep–Apr) this fires at 3:00 PM NZ time
-    - cron: '0 2 * * 1,4'
+    # 7:00 PM NZST (UTC+12) Mon & Thu = 07:00 UTC Mon & Thu
+    # During NZDT (UTC+13, Sep–Apr) this fires at 8:00 PM NZ time
+    - cron: '0 7 * * 1,3,6'
 
   workflow_dispatch:   # allow manual trigger from the Actions tab
 

@@ -1,8 +1,33 @@
-Add-Type -AssemblyName System.Windows.Forms
+# Log file location
+$logFile = Join-Path $PSScriptRoot "wake-up.log"
 
-$endTime = (Get-Date).Date.AddHours(20).AddMinutes(10)
+function Write-Log {
+    param([string]$Message)
 
-while ((Get-Date) -lt $endTime) {
-    [System.Windows.Forms.SendKeys]::SendWait("{F15}")
-    Start-Sleep -Seconds 60
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    Add-Content -Path $logFile -Value "$timestamp - $Message"
 }
+
+Write-Log "Script started."
+
+try {
+    Add-Type -AssemblyName System.Windows.Forms
+
+    $endTime = (Get-Date).Date.AddHours(20).AddMinutes(10)
+
+    Write-Log "Will keep awake until $endTime"
+
+    while ((Get-Date) -lt $endTime) {
+        [System.Windows.Forms.SendKeys]::SendWait("{F15}")
+        Write-Log "Sent F15 key."
+        Start-Sleep -Seconds 60
+    }
+
+    Write-Log "Reached end time. Exiting normally."
+}
+catch {
+    Write-Log "ERROR: $($_.Exception.Message)"
+    throw
+}
+
+Write-Log "Script finished."

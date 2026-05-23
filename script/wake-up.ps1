@@ -13,14 +13,14 @@ Write-Log "Script started."
 try {
     Add-Type -AssemblyName System.Windows.Forms
 
-    $endTime = (Get-Date).Date.AddHours(20).AddMinutes(10)
+    $endTime = (Get-Date).AddMinutes(20)
 
     Write-Log "Will keep awake until $endTime"
 
     while ((Get-Date) -lt $endTime) {
         [System.Windows.Forms.SendKeys]::SendWait("{F15}")
         Write-Log "Sent F15 key."
-        Start-Sleep -Seconds 60
+        Start-Sleep -Seconds 120
     }
 
     Write-Log "Reached end time. Exiting normally."

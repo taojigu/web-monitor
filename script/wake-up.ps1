@@ -13,7 +13,7 @@ Write-Log "Script started."
 try {
     Add-Type -AssemblyName System.Windows.Forms
 
-    $endTime = (Get-Date).AddMinutes(20)
+    $endTime = (Get-Date).AddMinutes(120)
 
     Write-Log "Will keep awake until $endTime"
 

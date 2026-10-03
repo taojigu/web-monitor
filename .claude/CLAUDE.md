@@ -71,7 +71,7 @@ SMTP host/port/secure settings are hardcoded in `.github/workflows/scan-website.
 
 GitHub Actions (`.github/workflows/scan-website.yml`) runs on:
 - Push to `main`
-- Cron: `0 20 * * 0-4` UTC (Mon–Fri 8am NZST)
+- Cron: `0 2 * * 1,4` UTC (Mon & Thu 2pm NZST)
 - Manual `workflow_dispatch`
 
 Only Chromium is used. HTML test reports are uploaded as artifacts (30-day retention).
@@ -130,3 +130,8 @@ When implementing a workflow, read the relevant spec file first and follow it ex
 - Don't add `waitForTimeout` calls to "fix" flaky tests — find the real signal to wait on.
 - Don't hardcode credentials or URLs in source — use config/env.
 - Don't bypass the page object pattern by putting raw selectors in workflow files.
+
+
+## Page Object Model
+- ### PaknSave Page Object
+`tests/pages/paknsave.page.ts` — `PaknSavePOM` encapsulates all PaknSave browsing logic. Constructor takes `(page: Page, dataFilePath: string)`. Methods: `navigateToSite`, `selectStore`, `filterProduct` (returns `InfoItemEntry[]`). Interfaces `PriceFilter`, `PaknSaveSite`, `PaknSaveConfig` are exported from this module.

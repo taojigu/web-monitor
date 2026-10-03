@@ -1,0 +1,40 @@
+{
+  "site-list": [
+    {
+      "code": "TePapa",
+      "info" : {
+        "name": "Jobs in Te Papa",
+        "url": "https://jobs.tepapa.govt.nz/jobtools/jncustomsearch.searchResults?in_organid=17768&in_jobDate=All",
+        "keywords": [
+          "host",
+          "security"
+        ],
+        "emails": [
+          "jitaogu1102@gmail.com",
+          "QuitMobilePhoneAddiction@gmail.com"
+        ]
+      }
+    },
+    {
+      "code": "PaknSave-Kilbirnie-Discount",
+      "info" : {
+        "name": "PaknSave Kilbirnie Discount",
+        "url": "https://www.paknsave.co.nz/",
+        "emails": [
+          "jitaogu1102@gmail.com",
+          "QuitMobilePhoneAddiction@gmail.com"
+        ]
+      },
+      "context": {
+        "location": "Kilbirnie",
+        "price-filter": [
+          {
+            "keyword": "Auntie Dai's Pork",
+            "min-price": 0,
+            "max-price": 10
+          }
+        ]
+      }
+    }
+  ]
+}

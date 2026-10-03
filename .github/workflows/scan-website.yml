@@ -7,9 +7,9 @@ on:
       - main
 
   schedule:
-    # 8:00 AM NZST (UTC+12) Mon–Fri = 20:00 UTC Sun–Thu
-    # During NZDT (UTC+13, Sep–Apr) this fires at 9:00 AM NZ time
-    - cron: '0 20 * * 0-4'
+    # 7:00 PM NZST (UTC+12) Mon & Thu = 07:00 UTC Mon & Thu
+    # During NZDT (UTC+13, Sep–Apr) this fires at 8:00 PM NZ time
+    - cron: '50 6 * * 1,3,6'
 
   workflow_dispatch:   # allow manual trigger from the Actions tab
 
@@ -18,8 +18,8 @@ jobs:
   # ── E2E / monitoring tests — run on push + schedule ─────────────────────────
   e2e:
     name: E2E Tests (Chrome only)
-    timeout-minutes: 120
-    runs-on: [self-hosted, Windows, X64, home-laptop]
+    timeout-minutes: 20
+    runs-on: [self-hosted, Windows, X64]
     env:
       # Non-sensitive defaults — hardcoded here, no secrets needed
       SMTP_HOST:   smtp.gmail.com
@@ -28,10 +28,11 @@ jobs:
       # Sensitive credentials — stored as Repository Secrets
       SMTP_USER:   ${{ secrets.SMTP_USER }}
       SMTP_PASS:   ${{ secrets.SMTP_PASS }}
+      NODE_ENV:     prod
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.1.0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6.5.0
         with:
           node-version: lts/*
           cache: npm
@@ -45,7 +46,7 @@ jobs:
       - name: Run E2E tests (Chrome)
         run: npx playwright test tests/test-cases/ --project=chromium
 
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7.0.1
         if: ${{ !cancelled() }}
         with:
           name: e2e-report

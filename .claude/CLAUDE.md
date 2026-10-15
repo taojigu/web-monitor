@@ -130,3 +130,8 @@ When implementing a workflow, read the relevant spec file first and follow it ex
 - Don't add `waitForTimeout` calls to "fix" flaky tests — find the real signal to wait on.
 - Don't hardcode credentials or URLs in source — use config/env.
 - Don't bypass the page object pattern by putting raw selectors in workflow files.
+
+
+## Page Object Model
+- ### PaknSave Page Object
+`tests/pages/paknsave.page.ts` — `PaknSavePOM` encapsulates all PaknSave browsing logic. Constructor takes `(page: Page, dataFilePath: string)`. Methods: `navigateToSite`, `selectStore`, `filterProduct` (returns `InfoItemEntry[]`). Interfaces `PriceFilter`, `PaknSaveSite`, `PaknSaveConfig` are exported from this module.
